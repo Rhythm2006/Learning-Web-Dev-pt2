@@ -11,16 +11,25 @@ import './App.css'
 // - **Consumer**: This component subscribes to context changes. It allows you to access the context value (using `useContext`  hook)
 
 const BulbContext = createContext();
-function App() {
+
+function BulbContextProvider({children}){
   const [isLightOn,setIsLightOn] = useState(true);
-  return (
-    <>
-    <BulbContext.Provider value={{
+  return <>
+  <BulbContext.Provider value={{
       isLightOn: isLightOn,
       setIsLightOn: setIsLightOn
     }}>
-      <LightBulb/>
+      {children}
     </BulbContext.Provider>
+    </>
+}
+function App() {
+  
+  return (
+    <>
+    <BulbContextProvider>
+      <LightBulb/>
+    </BulbContextProvider>
     </>
   )
 }
