@@ -3,6 +3,7 @@ import './App.css'
 // As your application grows, you find out that multiple components need to access the same state,
 // instead of duplicationg each state for each component, you can lift the state to the lowest common ancestor 
 // allowing the common ancestor to manage it.
+// Not the optimal way to do it.
 function App() {
   
 
