@@ -5,6 +5,35 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import { useFetch } from './hooks/useFetch'
 import { usePrev } from './hooks/usePrev'
+import { useRef } from 'react'
+//Debound usecase1
+// function useDebounce(originalFn){
+//   const currentFn = useRef();
+//   const fn = () => {
+//   clearTimeout(currentFn.current);
+//   currentFn.current = setTimeout(originalFn,200);
+// }
+//   return fn ;
+  
+// }
+
+// Debound usecase 2
+
+const useDebounce = (value,delay) => {
+  const [debounceValue,setdebounceValue] = useState(value);
+
+  useEffect(()=>{
+    const handler = setTimeout(()=>{
+      setdebounceValue(value);
+    },delay)
+
+    return () => {
+      clearTimeout(handler);
+    }
+  },[value,delay])
+
+  return debounceValue;
+}
 
 // function App() {
 //   const [currentPost, setcurrentPost] = useState(1);
@@ -30,18 +59,54 @@ import { usePrev } from './hooks/usePrev'
 // }
 
 
-function App() {
-  const [state, setState] = useState(0);
+// function App() {
+//   const [state, setState] = useState(0);
 
-  const prev = usePrev(state);
+//   const prev = usePrev(state);
+
+//   return <>
+//   <p>{state}</p>
+//   <button onClick={()=>{
+//     setState( (curr) => curr + 1)
+//   }}>Click Me</button>
+//   <p>Prev Vale {prev}</p>
+//   </>
+// }
+
+//Debound Usecase 1
+// function App(){
+//   function backendFn(){
+//     console.log("Data return");
+//   }
+
+//   const debouncedFn = useDebounce(backendFn);
+
+//   return <>
+//   <p>Type here</p>
+//   <input type='text' onChange={debouncedFn}></input></>
+// }
+
+//Debounce usecase 2
+
+function App(){
+  const [inputVal,setinputVal] = useState("");
+  const debouncedVal = useDebounce(inputVal,200);
+
+  function change(e) {
+    setinputVal(e.target.value);
+  }
+
+  useEffect(()=>{
+    console.log("Expensive operation has been performed")
+  },[debouncedVal]);
 
   return <>
-  <p>{state}</p>
-  <button onClick={()=>{
-    setState( (curr) => curr + 1)
-  }}>Click Me</button>
-  <p>Prev Vale {prev}</p>
-  </>
+  <p>Type here</p>
+  <input type='text' onChange={change}></input></>
 }
+
+
+
+
 
 export default App
